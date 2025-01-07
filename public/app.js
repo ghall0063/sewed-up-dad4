@@ -1,33 +1,96 @@
 const canvas = new fabric.Canvas('designCanvas');
 
+// ✅ Add Text to Canvas
 function addText() {
-    const text = new fabric.Textbox('Your Text Here', { left: 50, top: 50 });
+    const text = new fabric.Textbox('Your Text Here', {
+        left: 50,
+        top: 50,
+        fontSize: 20,
+        fill: '#000'
+    });
     canvas.add(text);
 }
 
+// ✅ Add Image to Canvas
 function addImage() {
     const url = prompt('Enter Image URL:');
-    fabric.Image.fromURL(url, (img) => canvas.add(img));
+    if (url) {
+        fabric.Image.fromURL(url, (img) => {
+            img.scale(0.5);
+            canvas.add(img);
+        });
+    }
 }
 
+// ✅ Download Design
 function downloadDesign() {
+    if (!canvas || canvas.isEmpty()) {
+        alert('Canvas is empty. Add something before downloading.');
+        return;
+    }
     const link = document.createElement('a');
     link.download = 'design.png';
-    link.href = canvas.toDataURL();
+    link.href = canvas.toDataURL({
+        format: 'png',
+        quality: 1.0
+    });
     link.click();
 }
 
-async function showRegister() {
-    const username = prompt('Enter Username:');
-    const email = prompt('Enter Email:');
-    const password = prompt('Enter Password:');
-    await fetch('/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, email, password }) });
-    alert('Registered!');
+// ✅ Save Design
+async function saveDesign() {
+    if (!canvas || canvas.isEmpty()) {
+        alert('Canvas is empty. Add something before saving.');
+        return;
+    }
+
+    const designData = canvas.toDataURL('image/png');
+    try {
+        const response = await fetch('/save-design', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ design: designData })
+        });
+
+        if (response.ok) {
+            alert('Design saved successfully!');
+        } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+        }
+    } catch (err) {
+        console.error('Error saving design:', err);
+        alert('Failed to save design. Please try again.');
+    }
 }
 
-async function showLogin() {
-    const email = prompt('Enter Email:');
-    const password = prompt('Enter Password:');
-    await fetch('/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-    alert('Logged In!');
+// ✅ Place Order
+async function placeOrder() {
+    if (!canvas || canvas.isEmpty()) {
+        alert('Canvas is empty. Add something before placing an order.');
+        return;
+    }
+
+    const designData = canvas.toDataURL('image/png');
+    try {
+        const response = await fetch('/place-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ design: designData })
+        });
+
+        if (response.ok) {
+            alert('Order placed successfully!');
+        } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+        }
+    } catch (err) {
+        console.error('Error placing order:', err);
+        alert('Failed to place order. Please try again.');
+    }
 }
