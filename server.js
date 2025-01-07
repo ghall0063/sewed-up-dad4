@@ -10,7 +10,7 @@ const cors = require('cors');
 
 // 🚀 Initialize Express App
 const app = express();
-const PORT = process.env.PORT || 3000; // Allow dynamic port selection
+const PORT = process.env.PORT || 3000;
 
 // 🛡️ Middleware
 app.use(express.static('public')); // Serve static files from 'public'
@@ -22,7 +22,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-// ✅ MongoDB Connection (Local)
+// ✅ MongoDB Connection
 mongoose.connect('mongodb://127.0.0.1:27017/sewed-up-dad4')
     .then(() => console.log('✅ MongoDB (Local) Connected Successfully'))
     .catch(err => console.error('❌ MongoDB Connection Error:', err));
@@ -51,47 +51,6 @@ function authenticate(req, res, next) {
         res.status(401).json({ error: 'Invalid or expired token. Please log in again.' });
     }
 }
-
-// ✅ Route: User Registration
-app.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
-        return res.status(400).json({ error: 'All fields are required' });
-    }
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        return res.status(400).json({ error: 'User already exists' });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
-
-    await newUser.save();
-    res.status(201).json({ message: 'User registered successfully' });
-});
-
-// ✅ Route: User Login
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(400).json({ error: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign({ userId: user._id }, 'your-jwt-secret', { expiresIn: '1h' });
-    res.status(200).json({ message: 'Login successful', token });
-});
-
-// ✅ Route: User Profile (Protected Route)
-app.get('/profile', authenticate, async (req, res) => {
-    const user = await User.findById(req.userId);
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
-    res.status(200).json({ user });
-});
 
 // ✅ Route: Save Design
 app.post('/save-design', (req, res) => {
