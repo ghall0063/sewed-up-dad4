@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header h1 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    margin: 20px;
+}
+
+button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
