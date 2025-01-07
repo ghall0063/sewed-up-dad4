@@ -39,6 +39,11 @@ function downloadDesign() {
 
 // ✅ Save Design
 async function saveDesign() {
+    if (!canvas || canvas.isEmpty()) {
+        alert('Canvas is empty. Add something before saving.');
+        return;
+    }
+
     const designData = canvas.toDataURL('image/png');
     try {
         const response = await fetch('/save-design', {
@@ -47,14 +52,25 @@ async function saveDesign() {
             body: JSON.stringify({ design: designData })
         });
 
-        if (response.ok) alert('Design saved successfully!');
+        if (response.ok) {
+            alert('Design saved successfully!');
+        } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+        }
     } catch (err) {
-        alert('Failed to save design.');
+        console.error('Error saving design:', err);
+        alert('Failed to save design. Please try again.');
     }
 }
 
 // ✅ Place Order
 async function placeOrder() {
+    if (!canvas || canvas.isEmpty()) {
+        alert('Canvas is empty. Add something before placing an order.');
+        return;
+    }
+
     const designData = canvas.toDataURL('image/png');
     try {
         const response = await fetch('/place-order', {
@@ -63,8 +79,27 @@ async function placeOrder() {
             body: JSON.stringify({ design: designData })
         });
 
-        if (response.ok) alert('Order placed successfully!');
+        if (response.ok) {
+            alert('Order placed successfully!');
+        } else {
+            const error = await response.json();
+            alert(`Error: ${error.error}`);
+        }
     } catch (err) {
-        alert('Failed to place order.');
+        console.error('Error placing order:', err);
+        alert('Failed to place order. Please try again.');
     }
+}
+
+// ✅ Clear Canvas
+function clearCanvas() {
+    canvas.clear();
+    alert('Canvas cleared!');
+}
+
+// ✅ Reset Canvas
+function resetCanvas() {
+    canvas.clear();
+    addText();
+    alert('Canvas reset to default state!');
 }
