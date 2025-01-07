@@ -5,30 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sewed Up Dad 4</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/fabric@4.6.0/dist/fabric.min.js"></script>
     <script src="app.js" defer></script>
 </head>
 <body>
     <header>
         <h1>Welcome to Sewed Up Dad 4</h1>
-        <p>Design your custom apparel with ease!</p>
     </header>
     <main>
-        <section id="design-area">
-            <h2>Design Studio</h2>
-            <canvas id="designCanvas" width="600" height="400"></canvas>
-            <div class="controls">
-                <button onclick="addText()">Add Text</button>
-                <button onclick="addImage()">Add Image</button>
-                <button onclick="downloadDesign()">Download Design</button>
-                <button onclick="placeOrder()">Place Order</button>
-            </div>
-        </section>
+        <div class="controls">
+            <button onclick="showRegister()">Register</button>
+            <button onclick="showLogin()">Login</button>
+            <button onclick="addText()">Add Text</button>
+            <button onclick="addImage()">Add Image</button>
+            <button onclick="downloadDesign()">Download Design</button>
+            <button onclick="placeOrder()">Place Order</button>
+            <button onclick="saveDesign()">Save Design</button>
+            <button onclick="location.href='gallery.html'">View Gallery</button>
+        </div>
     </main>
     <footer>
-        <p>&copy; 2024 Sewed Up Dad 4. All Rights Reserved.</p>
+        <p>&copy; 2024 Sewed Up Dad 4</p>
     </footer>
 </body>
 </html>
-
-
