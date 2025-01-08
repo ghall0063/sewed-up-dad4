@@ -1,4 +1,5 @@
 // 📦 Import Required Modules
+require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -17,14 +18,14 @@ app.use(express.static('public')); // Serve static files from 'public'
 app.use(express.json()); // Parse JSON requests
 app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET || 'default-secret',
     resave: false,
     saveUninitialized: true,
 }));
 
 // ✅ MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/sewed-up-dad4')
-    .then(() => console.log('✅ MongoDB (Local) Connected Successfully'))
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/sewed-up-dad4')
+    .then(() => console.log('✅ MongoDB Connected Successfully'))
     .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
 // ✅ User Schema
@@ -44,7 +45,7 @@ function authenticate(req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, 'your-jwt-secret');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret');
         req.userId = decoded.userId;
         next();
     } catch (err) {
@@ -96,7 +97,7 @@ app.get('/test-db', async (req, res) => {
     }
 });
 
-// ✅ Route: 404 Page
+// ✅ Route: Handle 404 Errors
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
