@@ -4,25 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customize Your Product - Sewed Up Dad 4</title>
-    <link rel="stylesheet" href="styles.css">
+
+    <!-- ✅ Add Favicon to Prevent 404 Error -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- ✅ Load Fabric.js BEFORE app.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
+
+    <!-- ✅ Load app.js AFTER Fabric.js -->
     <script src="app.js" defer></script>
+
+    <!-- ✅ Link to CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <h1>Customize Your Product</h1>
     </header>
+
     <main>
+        <!-- ✅ Design Canvas -->
         <div id="design-container">
             <canvas id="designCanvas" width="600" height="400"></canvas>
         </div>
+
+        <!-- ✅ Buttons for Design Tools -->
         <div class="controls">
-            <button onclick="addText()">📝 Add Text</button>
-            <button onclick="addImage()">🖼️ Add Image</button>
-            <button onclick="changeBackgroundColor()">🎨 Change Background</button>
-            <button onclick="downloadDesign()">📥 Download Design</button>
-            <button onclick="saveDesign()">💾 Save Design</button>
+            <button id="addText">📝 Add Text</button>
+            <button id="addImage">🖼️ Add Image</button>
+            <button id="changeBg">🎨 Change Background</button>
+            <button id="downloadDesign">📥 Download Design</button>
+            <button id="saveDesign">💾 Save Design</button>
+            <button id="placeOrder">🛒 Place Order</button>
         </div>
     </main>
+
+    <footer>
+        <p>&copy; 2024 Sewed Up Dad 4 - All rights reserved.</p>
+    </footer>
 </body>
 </html>
