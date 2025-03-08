@@ -3,34 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Studio</title>
+    <title>Customize Your Product - Sewed Up Dad 4</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
     <script src="app.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Design Studio</h1>
+        <h1>Customize Your Product</h1>
     </header>
-
     <main>
-        <section id="design-studio">
-            <h2>Create Your Design</h2>
+        <div id="design-container">
             <canvas id="designCanvas" width="600" height="400"></canvas>
-            <div id="controls">
-                <button onclick="addText()">📝 Add Text</button>
-                <button onclick="addImage()">🖼️ Add Image</button>
-                <button onclick="downloadDesign()">📥 Download Design</button>
-                <button onclick="saveDesign()">💾 Save Design</button>
-                <button onclick="placeOrder()">🛒 Place Order</button>
-                <button onclick="clearCanvas()">🧹 Clear Canvas</button>
-                <button onclick="resetCanvas()">🔄 Reset Canvas</button>
-            </div>
-        </section>
+        </div>
+        <div class="controls">
+            <button onclick="addText()">📝 Add Text</button>
+            <button onclick="addImage()">🖼️ Add Image</button>
+            <button onclick="changeBackgroundColor()">🎨 Change Background</button>
+            <button onclick="downloadDesign()">📥 Download Design</button>
+            <button onclick="saveDesign()">💾 Save Design</button>
+        </div>
     </main>
-
-    <footer>
-        <p>&copy; 2024 Design Studio. All rights reserved.</p>
-    </footer>
 </body>
 </html>

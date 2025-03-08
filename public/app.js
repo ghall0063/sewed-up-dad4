@@ -1,105 +1,52 @@
+// Initialize Fabric.js Canvas
 const canvas = new fabric.Canvas('designCanvas');
 
-// ✅ Add Text to Canvas
+// Function: Add Text to Canvas
 function addText() {
     const text = new fabric.Textbox('Your Text Here', {
         left: 50,
         top: 50,
         fontSize: 20,
-        fill: '#000'
+        fill: '#000',
+        fontFamily: 'Arial',
+        editable: true
     });
     canvas.add(text);
 }
 
-// ✅ Add Image to Canvas
+// Function: Upload Image to Canvas
 function addImage() {
     const url = prompt('Enter Image URL:');
-    if (url) {
-        fabric.Image.fromURL(url, (img) => {
-            img.scale(0.5);
-            canvas.add(img);
-        });
-    }
+    fabric.Image.fromURL(url, (img) => {
+        img.scaleToWidth(200);
+        img.scaleToHeight(200);
+        canvas.add(img);
+    });
 }
 
-// ✅ Download Design
+// Function: Change Background Color
+function changeBackgroundColor() {
+    const color = prompt('Enter Background Color (e.g., #FF0000):');
+    canvas.backgroundColor = color;
+    canvas.renderAll();
+}
+
+// Function: Save Design
+function saveDesign() {
+    const designData = canvas.toDataURL();
+    fetch('/save-design', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ design: designData })
+    })
+    .then(response => response.json())
+    .then(data => alert(data.message));
+}
+
+// Function: Download Design
 function downloadDesign() {
-    if (!canvas || canvas.isEmpty()) {
-        alert('Canvas is empty. Add something before downloading.');
-        return;
-    }
     const link = document.createElement('a');
     link.download = 'design.png';
-    link.href = canvas.toDataURL({
-        format: 'png',
-        quality: 1.0
-    });
+    link.href = canvas.toDataURL();
     link.click();
-}
-
-// ✅ Save Design
-async function saveDesign() {
-    if (!canvas || canvas.isEmpty()) {
-        alert('Canvas is empty. Add something before saving.');
-        return;
-    }
-
-    const designData = canvas.toDataURL('image/png');
-    try {
-        const response = await fetch('/save-design', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ design: designData })
-        });
-
-        if (response.ok) {
-            alert('Design saved successfully!');
-        } else {
-            const error = await response.json();
-            alert(`Error: ${error.error}`);
-        }
-    } catch (err) {
-        console.error('Error saving design:', err);
-        alert('Failed to save design. Please try again.');
-    }
-}
-
-// ✅ Place Order
-async function placeOrder() {
-    if (!canvas || canvas.isEmpty()) {
-        alert('Canvas is empty. Add something before placing an order.');
-        return;
-    }
-
-    const designData = canvas.toDataURL('image/png');
-    try {
-        const response = await fetch('/place-order', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ design: designData })
-        });
-
-        if (response.ok) {
-            alert('Order placed successfully!');
-        } else {
-            const error = await response.json();
-            alert(`Error: ${error.error}`);
-        }
-    } catch (err) {
-        console.error('Error placing order:', err);
-        alert('Failed to place order. Please try again.');
-    }
-}
-
-// ✅ Clear Canvas
-function clearCanvas() {
-    canvas.clear();
-    alert('Canvas cleared!');
-}
-
-// ✅ Reset Canvas
-function resetCanvas() {
-    canvas.clear();
-    addText();
-    alert('Canvas reset to default state!');
 }
